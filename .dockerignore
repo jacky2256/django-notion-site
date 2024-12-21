@@ -1,0 +1,59 @@
+# Ignore Python cache files
+**/__pycache__/
+**/*.pyc
+**/*.pyo
+**/*.pyd
+
+# Ignore virtual environment
+venv/
+env/
+
+# Ignore version control files
+.git/
+.gitignore
+
+# Ignore editor and IDE files
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+*.log
+
+# Ignore database files
+*.sqlite3
+db.sqlite3
+
+# Ignore static and media files if they are not needed in the image
+staticfiles/
+media/
+
+# Ignore local environment files
+*.env
+.env.*
+
+# Ignore coverage and testing files
+htmlcov/
+.tox/
+.pytest_cache/
+.coverage
+*.cover
+coverage.xml
+nosetests.xml
+*.out
+*.err
+
+# Ignore build files
+build/
+dist/
+*.egg-info/
+*.eggs/
+*.whl
+
+# Ignore deployment-specific folders
+postgres_data/
+rabbitmq_data/
+
+# Allow empty marker files (for volume mounts, e.g., .empty)
+!postgres_data/.empty
+!rabbitmq_data/.empty

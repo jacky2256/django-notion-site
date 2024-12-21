@@ -1,0 +1,113 @@
+version: '3.8'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3.11-management-alpine
+    container_name: rabbitmq
+    hostname: rabbitmq
+    restart: unless-stopped
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASS}
+      - RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS=-rabbit disk_free_limit 5368709120 consumer_timeout 18000000
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - ./rabbitmq:/var/lib/rabbitmq
+    networks:
+      - notion-site-network
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: postgres
+    hostname: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "5433:5432"
+    volumes:
+      - ./postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    networks:
+      - notion-site-network
+
+  django_notion_site:
+    hostname: django_notion_site
+    container_name: django_notion_site
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - HOST_USER=$USER
+    restart: unless-stopped
+    command: >
+      sh -c "
+        python manage.py runserver 0.0.0.0:8000
+      "
+    volumes:
+      - .:/code
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: curl -f http://django_notion_site:8000
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - notion-site-network
+
+  celery_service_1:
+    hostname: celery_service_1
+    container_name: celery_service_1
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - HOST_USER=$USER
+    restart: unless-stopped
+    command: >
+      sh -c "
+        celery -A core worker --loglevel=info --concurrency=1 --hostname=worker1@%h
+      "
+    volumes:
+      - .:/code
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - notion-site-network
+
+  celery_service_2:
+    hostname: celery_service_2
+    container_name: celery_service_2
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - HOST_USER=$USER
+    restart: unless-stopped
+    command: >
+      sh -c "
+        celery -A core worker --loglevel=info --concurrency=1 --hostname=worker1@%h
+      "
+    volumes:
+      - .:/code
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
+    networks:
+      - notion-site-network
+
+networks:
+  notion-site-network:
+    driver: bridge
