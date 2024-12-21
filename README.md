@@ -1,7 +1,7 @@
 #  Django Notion Site Project
 ### 1. Clone the Repository
 ```shell
-git clone <your-repo-url>
+git clone https://github.com/jacky2256/django-notion-site.git
 cd django-notion-site
 ```
 ### 2. Create the .env file
@@ -26,7 +26,7 @@ ALLOWED_HOSTS=localhost,0.0.0.0
 ```
 ### 3. Start the Docker Containers
 ```shell
-docker-compose up -d
+docker compose up -d
 ```
 ### 4. Apply Database Migrations
 ```shell
@@ -38,7 +38,7 @@ python manage.py migrate
 ```
 ### 5. Restart the Django Container
 ```shell
-docker-compose restart django_notion_site
+docker compose restart django_notion_site
 ```
 ### 6. Access the Swagger API Documentation
 Open your browser and navigate to: http://0.0.0.0:8000/api/swagger/
@@ -55,13 +55,13 @@ Open your browser and navigate to: http://0.0.0.0:8000/api/swagger/
 7.1. Check Logs in the Django Container
 <br> Enter the django_notion_site container:
 ```shell
-docker exec -it django_notion_site bash
+docker logs -f django_notion_site
 ```
 7.2. Check Celery Workers
 <br> Repeat the process for celery_service_1 and celery_service_2:
 ```shell
-docker exec -it celery_service_1 bash
-docker exec -it celery_service_2 bash
+docker logs -f celery_service_1
+docker logs -f celery_service_2
 ```
 ### Expected Result
 in django_notion_site:
