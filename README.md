@@ -10,16 +10,20 @@ cd django-notion-site
 DEBUG=True
 
 # Secret Key
-SECRET_KEY=django-insecure-your-secret-key
+SECRET_KEY=django-insecure-c)4oysy=b_4mmgy_(r=ha6#$jw!%1cv^%*=b(af$jl73ns7$5_
 
 # Database
 POSTGRES_DB=notion_site_db
 POSTGRES_USER=postgres
 POSTGRES_PASSWORD=1234
+DB_HOST=postgres
+DB_PORT=5432
 
 # RabbitMQ
 RABBITMQ_USER=guest
 RABBITMQ_PASS=guest
+RABBITMQ_HOST=rabbitmq
+RABBITMQ_PORT=5672
 
 # Allowed Hosts
 ALLOWED_HOSTS=localhost,0.0.0.0
