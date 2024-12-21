@@ -1,0 +1,100 @@
+# Python
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.swp
+*.swo
+*.idea/
+
+# Django
+db.sqlite3
+*.log
+*.pot
+*.py[cod]
+*.sqlite3
+*.pyo
+*.env
+local_settings.py
+media/
+
+# Django migrations
+*/migrations/*.py
+*/migrations/*.pyc
+!*/migrations/__init__.py
+
+# Environment files
+.env
+*.env
+
+# Virtual environments
+.venv/
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Cache
+*.egg-info/
+.eggs/
+.eggs-info/
+*.egg
+.cache
+*.log
+logs/
+*.lock
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Docker
+*.pid
+*.seed
+*.pid.lock
+docker-compose.override.yml
+
+# IDEs and editors
+.idea/
+.vscode/
+*.swp
+*.swo
+*.sublime-project
+*.sublime-workspace
+*.code-workspace
+
+# Test coverage
+.coverage
+.tox/
+.nox/
+.cache/
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+
+# Jupyter Notebooks
+.ipynb_checkpoints
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Others
+*.bak
+*.dump
+*.pid
+*.seed
+
+# Ignore all files and folders in rabbitmq except .empty
+rabbitmq/*
+!rabbitmq/.empty
+
+# Ignore all files and folders in postgres_data except .empty
+postgres_data/*
+!postgres_data/.empty
